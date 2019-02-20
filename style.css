@@ -2,6 +2,8 @@
     border: 1px solid #DDDDDD;
     display: flex;
     background: red;
+    width: 98vw;
+    height: 100vh;
 }
 
     .container canvas {

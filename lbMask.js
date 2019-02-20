@@ -8,7 +8,7 @@
             maskImageUrl: undefined,
             imageUrl: undefined,
             scale: 1,
-            id: new Date().getUTCMilliseconds().toString(),
+            id: new Date().getUTCMilliseconds().toString() + JQmasks.length,
             x: 0, // image start position
             y: 0, // image start position
             onMaskImageCreate: function (div) { },
@@ -37,7 +37,7 @@
         container.selected = function (ev) {
             var pos = container.mousePosition(ev);
             var item = $(".masked-img canvas").filter(function () {
-                var offset = $(this).offset()
+                var offset = $(this).offset();
                 var x = pos.x - offset.left;
                 var y = pos.y - offset.top;
                 var d = this.getContext('2d').getImageData(x, y, 1, 1).data;
@@ -144,13 +144,13 @@
             }).append(canvas);
 
             div.find("canvas").on('touchstart mousedown', function (event) {
-                if (event.handled === false) return;
+                if (event.handled === true) return;
                 event.handled = true;
                 container.onDragStart(event);
             });
 
             div.find("canvas").on('touchend mouseup', function (event) {
-                if (event.handled === false) return;
+                if (event.handled === true) return;
                 event.handled = true;
                 container.selected(event);
             });
@@ -163,6 +163,7 @@
         };
         container.loadMaskImage(settings.maskImageUrl);
         JQmasks.push({ item: container, id: settings.id });
+
         return container;
     };
 }(jQuery));
