@@ -66,8 +66,10 @@
 
         container.onDragStart = function (evt) {
             container.selected(evt);
-            prevX = evt.clientX;
-            prevY = evt.clientY;
+            if (draggable) {
+                prevX = evt.clientX;
+                prevY = evt.clientY;
+            }
         };
 
         container.getImagePosition = function () {
