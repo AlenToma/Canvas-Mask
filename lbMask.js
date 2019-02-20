@@ -11,6 +11,7 @@
             id: new Date().getUTCMilliseconds().toString() + JQmasks.length,
             x: 0, // image start position
             y: 0, // image start position
+            onImageCreate: function (img) { },
             onMaskImageCreate: function (div) { },
         }, options);
 
@@ -100,8 +101,12 @@
                 image.setAttribute('crossOrigin', 'anonymous');
                 image.src = settings.maskImageUrl;
                 image.onload = function () {
-                    canvas.width = image.width;
-                    canvas.height = image.height;
+
+                    if (settings.onImageCreate)
+                        settings.onImageCreate(image);
+
+                    canvas.width = image.width * settings.scale;
+                    canvas.height = image.height * settings.scale;
                     context.drawImage(image, 0, 0, image.width, image.height);
                     div.css({ "width": image.width, "height": image.height });
                 };

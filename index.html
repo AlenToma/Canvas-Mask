@@ -16,20 +16,28 @@
             var maskedImageUrlf = "images/l6.png";
             var maskedImageUrlg = "images/l7.png";
             var maskedImageUrlh = "images/l8.png";
+            var scale = 1;
+
+            function onImageCreate(img) {
+                img.width = img.width / 2;
+                img.height = img.height / 2;
+            }
 
             // maskedImage one
             var mask1 = $(".container").mask({
                 maskImageUrl: maskedImageUrla,
+                scale: 1,
+                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 20, "top": 215 })
-
-
+                    img.css({ "position": "fixed", "left": 20, "top": 118 });
                 }
             });
             // maskedImage two
             var mask2 = $(".container").mask({
                 maskImageUrl: maskedImageUrlb,
+                scale: scale,
+                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
                     img.css({ "position": "fixed", "left": 191, "top": 472 })
@@ -40,6 +48,8 @@
 
             var mask3 = $(".container").mask({
                 maskImageUrl: maskedImageUrlc,
+                scale: scale,
+                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
                     img.css({ "position": "fixed", "left": 414, "top": 300 })
@@ -50,6 +60,8 @@
 
             var mask4 = $(".container").mask({
                 maskImageUrl: maskedImageUrld,
+                scale: scale,
+                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
                     img.css({ "position": "fixed", "left": 374, "top": 30 })
@@ -60,6 +72,8 @@
 
             var mask5 = $(".container").mask({
                 maskImageUrl: maskedImageUrle,
+                scale: scale,
+                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
                     img.css({ "position": "fixed", "left": 150, "top": 30 })
@@ -70,9 +84,11 @@
 
             var mask6 = $(".container").mask({
                 maskImageUrl: maskedImageUrlf,
+                scale: scale,
+                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 20, "top": 30 })
+                    img.css({ "position": "fixed", "left": 28, "top": 33 })
 
 
                 }
@@ -80,9 +96,11 @@
 
             var mask7 = $(".container").mask({
                 maskImageUrl: maskedImageUrlg,
+                scale: scale,
+                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 222, "top": 133 })
+                    img.css({ "position": "fixed", "left": 76, "top": 97 })
 
 
                 }
@@ -90,9 +108,11 @@
 
             var mask8 = $(".container").mask({
                 maskImageUrl: maskedImageUrlh,
+                scale: scale,
+                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "absolute", "left": 123, "top": 165 })
+                    img.css({ "position": "fixed", "left": 76, "top": 97 });
 
 
                 }
@@ -130,7 +150,8 @@
             fileupa8.onchange = function () {
                 mask8.loadImage(URL.createObjectURL(fileupa8.files[0]));
             };
-        }); // end of document ready
+        }); // end of document ready
+
     </script>
 </head>
 <body>
