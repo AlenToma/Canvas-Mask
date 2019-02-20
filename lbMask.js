@@ -17,7 +17,7 @@
 
 
         var container = {};
-        
+
 
         let prevX = 0,
             prevY = 0,
@@ -26,7 +26,6 @@
             canvas,
             context,
             image,
-            timeout,
             initImage = false,
             startX = settings.x,
             startY = settings.y,
@@ -91,15 +90,15 @@
         };
 
         container.updateStyle = function () {
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.globalCompositeOperation = "source-over";
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.globalCompositeOperation = "source-over";
+
+            if (initImage || !image) {
                 image = new Image();
                 image.setAttribute('crossOrigin', 'anonymous');
                 image.src = settings.maskImageUrl;
                 image.onload = function () {
-
                     if (settings.onImageCreate)
                         settings.onImageCreate(image);
 
@@ -108,7 +107,11 @@
                     context.drawImage(image, 0, 0, image.width, image.height);
                     div.css({ "width": image.width, "height": image.height });
                 };
+            } else {
+                context.drawImage(image, 0, 0, image.width, image.height);
+            }
 
+            if (initImage || !img) {
                 img = new Image();
                 img.src = settings.imageUrl || "";
                 img.setAttribute('crossOrigin', 'anonymous');
@@ -119,7 +122,10 @@
                     context.drawImage(img, settings.x, settings.y, img.width * settings.scale, img.height * settings.scale);
                     initImage = false;
                 };
-            }, 0);
+            } else {
+                context.globalCompositeOperation = 'source-atop';
+                context.drawImage(img, settings.x, settings.y, img.width * settings.scale, img.height * settings.scale);
+            }
         };
 
         // change the draggable image
@@ -132,26 +138,20 @@
             prevX = prevY = 0;
             settings.imageUrl = imageUrl;
             initImage = true;
+
             container.updateStyle();
         };
 
-        // change the masked Image
-        container.loadMaskImage = function (imageUrl, from) {
-            if (div)
-                div.remove();
+        container.createCanvas = function () {
+            if (canvas)
+                canvas.remove();
             canvas = document.createElement("canvas");
             context = canvas.getContext('2d');
             canvas.setAttribute("draggable", "true");
             canvas.setAttribute("id", settings.id);
-            settings.maskImageUrl = imageUrl;
-            div = $("<div/>", {
-                "class": "masked-img"
-            }).append(canvas);
-
-
+            div.append(canvas);
             div.find("canvas").hover(container.selected);
             div.find("canvas").on('touchstart mousedown', container.selected);
-
             div.find("canvas").on('touchend mouseup', function (event) {
                 if (event.handled === true) return;
                 event.handled = true;
@@ -159,8 +159,21 @@
                     item.item.disable();
                 });
             });
-
             div.find("canvas").bind("dragover", container.onDragOver);
+        };
+
+
+        // change the masked Image
+        container.loadMaskImage = function (imageUrl, from) {
+            if (div)
+                div.remove();
+
+
+            settings.maskImageUrl = imageUrl;
+            div = $("<div/>", {
+                "class": "masked-img"
+            });
+            container.createCanvas();
             obj.append(div);
             if (settings.onMaskImageCreate)
                 settings.onMaskImageCreate(div);
