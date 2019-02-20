@@ -12,11 +12,12 @@
             x: 0, // image start position
             y: 0, // image start position
             onImageCreate: function (img) { },
-            onMaskImageCreate: function (div) { },
+            onMaskImageCreate: function (div) { }
         }, options);
 
 
-        var container = $(this);
+        var container = {};
+        
 
         let prevX = 0,
             prevY = 0,
@@ -29,7 +30,8 @@
             initImage = false,
             startX = settings.x,
             startY = settings.y,
-            div;
+            div,
+            obj = $(this);
 
         container.mousePosition = function (event) {
             return { x: event.pageX || event.offsetX, y: event.pageY || event.offsetY };
@@ -51,6 +53,9 @@
                     el.item.enable();
                 else el.item.disable();
             });
+            prevX = pos.x;
+            prevY = pos.y;
+            return $(item);
         };
 
         container.enable = function () {
@@ -65,13 +70,6 @@
             div.css({ "z-index": 1 });
         };
 
-        container.onDragStart = function (evt) {
-            container.selected(evt);
-            if (draggable) {
-                prevX = evt.clientX;
-                prevY = evt.clientY;
-            }
-        };
 
         container.getImagePosition = function () {
             return { x: settings.x, y: settings.y, scale: settings.scale };
@@ -79,14 +77,15 @@
 
         container.onDragOver = function (evt) {
             if (draggable && $(canvas).attr("active") === "true") {
-                var x = settings.x + evt.clientX - prevX;
-                var y = settings.y + evt.clientY - prevY;
+                var pos = container.mousePosition(evt);
+                var x = settings.x + pos.x - prevX;
+                var y = settings.y + pos.y - prevY;
                 if (x === settings.x && y === settings.y)
                     return; // position has not changed
-                settings.x += evt.clientX - prevX;
-                settings.y += evt.clientY - prevY;
-                prevX = evt.clientX;
-                prevY = evt.clientY;
+                settings.x = x;
+                settings.y = y;
+                prevX = pos.x;
+                prevY = pos.y;
                 container.updateStyle();
             }
         };
@@ -95,7 +94,6 @@
             clearTimeout(timeout);
             timeout = setTimeout(function () {
                 context.clearRect(0, 0, canvas.width, canvas.height);
-                context.beginPath();
                 context.globalCompositeOperation = "source-over";
                 image = new Image();
                 image.setAttribute('crossOrigin', 'anonymous');
@@ -112,11 +110,11 @@
                 };
 
                 img = new Image();
-                img.src = settings.imageUrl;
+                img.src = settings.imageUrl || "";
                 img.setAttribute('crossOrigin', 'anonymous');
                 img.onload = function () {
-                    settings.x = settings.x === 0 && initImage ? (canvas.width - (img.width * settings.scale)) / 2 : settings.x;
-                    settings.y = settings.y === 0 && initImage ? (canvas.height - (img.height * settings.scale)) / 2 : settings.y;
+                    settings.x = settings.x === 0 && initImage === true ? (canvas.width - (img.width * settings.scale)) / 2 : settings.x;
+                    settings.y = settings.y === 0 && initImage === true ? (canvas.height - (img.height * settings.scale)) / 2 : settings.y;
                     context.globalCompositeOperation = 'source-atop';
                     context.drawImage(img, settings.x, settings.y, img.width * settings.scale, img.height * settings.scale);
                     initImage = false;
@@ -150,20 +148,20 @@
                 "class": "masked-img"
             }).append(canvas);
 
-            div.find("canvas").on('touchstart mousedown', function (event) {
-                if (event.handled === true) return;
-                event.handled = true;
-                container.onDragStart(event);
-            });
+
+            div.find("canvas").hover(container.selected);
+            div.find("canvas").on('touchstart mousedown', container.selected);
 
             div.find("canvas").on('touchend mouseup', function (event) {
                 if (event.handled === true) return;
                 event.handled = true;
-                container.selected(event);
+                JQmasks.forEach(function (item) {
+                    item.item.disable();
+                });
             });
 
             div.find("canvas").bind("dragover", container.onDragOver);
-            container.append(div);
+            obj.append(div);
             if (settings.onMaskImageCreate)
                 settings.onMaskImageCreate(div);
             container.loadImage(settings.imageUrl);

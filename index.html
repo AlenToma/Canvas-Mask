@@ -26,18 +26,16 @@
             // maskedImage one
             var mask1 = $(".container").mask({
                 maskImageUrl: maskedImageUrla,
-                scale: 1,
-                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 20, "top": 118 });
+                    img.css({ "position": "fixed", "left": 20, "top": 215 })
+
+
                 }
             });
             // maskedImage two
             var mask2 = $(".container").mask({
                 maskImageUrl: maskedImageUrlb,
-                scale: scale,
-                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
                     img.css({ "position": "fixed", "left": 191, "top": 472 })
@@ -48,11 +46,9 @@
 
             var mask3 = $(".container").mask({
                 maskImageUrl: maskedImageUrlc,
-                scale: scale,
-                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 414, "top": 300 })
+                    img.css({ "position": "fixed", "left": 414, "top": 290 })
 
 
                 }
@@ -60,11 +56,9 @@
 
             var mask4 = $(".container").mask({
                 maskImageUrl: maskedImageUrld,
-                scale: scale,
-                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 374, "top": 30 })
+                    img.css({ "position": "fixed", "left": 374, "top": 20 })
 
 
                 }
@@ -72,11 +66,9 @@
 
             var mask5 = $(".container").mask({
                 maskImageUrl: maskedImageUrle,
-                scale: scale,
-                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 150, "top": 30 })
+                    img.css({ "position": "fixed", "left": 150, "top": 20 })
 
 
                 }
@@ -84,11 +76,9 @@
 
             var mask6 = $(".container").mask({
                 maskImageUrl: maskedImageUrlf,
-                scale: scale,
-                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 28, "top": 33 })
+                    img.css({ "position": "fixed", "left": 20, "top": 20 })
 
 
                 }
@@ -96,11 +86,9 @@
 
             var mask7 = $(".container").mask({
                 maskImageUrl: maskedImageUrlg,
-                scale: scale,
-                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 76, "top": 97 })
+                    img.css({ "position": "fixed", "left": 222, "top": 123 })
 
 
                 }
@@ -108,15 +96,13 @@
 
             var mask8 = $(".container").mask({
                 maskImageUrl: maskedImageUrlh,
-                scale: scale,
-                onImageCreate: onImageCreate,
                 onMaskImageCreate: function (img) {
                     // add your style to the img example below
-                    img.css({ "position": "fixed", "left": 76, "top": 97 });
+                    img.css({ "position": "fixed", "left": 123, "top": 155 })
 
 
                 }
-            });
+            });
 
             fileupa1.onchange = function () {
                 mask1.loadImage(URL.createObjectURL(fileupa1.files[0]));
