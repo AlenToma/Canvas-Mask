@@ -1,0 +1,15 @@
+.container {
+    border: 1px solid #DDDDDD;
+    display: flex;
+    background: red;
+}
+
+    .container canvas {
+        display: block;
+    }
+
+.masked-img {
+    overflow: hidden;
+    margin-left: 10px;
+    position: relative;
+}
